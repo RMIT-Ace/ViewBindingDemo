@@ -7,15 +7,32 @@
 
 import SwiftUI
 
+
 struct ContentView: View {
+    @State private var testArray = [
+        "A", "B", "C"
+    ]
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+        NavigationStack {
+            VStack {
+                ForEach(Array(testArray.enumerated()), id: \.offset) { index, item in
+                    NavigationLink(item) {
+                        ModView(text: $testArray[index])
+                    }
+                }
+            }
+            .padding()
         }
-        .padding()
+    }
+}
+
+struct ModView: View {
+    @Binding var text: String
+    var body: some View {
+        Text("Hello: \(text)")
+            .onAppear {
+                text = "Changed \(text)"
+            }
     }
 }
 
